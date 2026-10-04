@@ -11,7 +11,7 @@
       width: 100%;
       height: 100%;
       overflow: hidden;
-      background-color: #1a1a1a;
+      background-color: #0d0d0d;
     }
     iframe {
       width: 100%;
@@ -21,7 +21,20 @@
   </style>
 </head>
 <body>
-  <!-- Append #autoOpen=true to force the webchat container to initialize immediately -->
-  <iframe id="chat-iframe" src="https://cdn.botpress.cloud/webchat/v3.7/shareable.html?configUrl=https://files.bpcontent.cloud/2026/10/04/00/20261004000148-OMHXQ2TB.json"></iframe>
+  <iframe id="chat-frame" src="https://cdn.botpress.cloud/webchat/v3.7/shareable.html?configUrl=https://files.bpcontent.cloud/2026/10/04/00/20261004000148-OMHXQ2TB.json"></iframe>
+
+  <script>
+    const iframe = document.getElementById('chat-frame');
+
+    iframe.onload = function() {
+      // Send initialization event to trigger SAUP's greeting automatically
+      setTimeout(() => {
+        iframe.contentWindow.postMessage({
+          type: 'event',
+          payload: { type: 'proactive-trigger' }
+        }, '*');
+      }, 500);
+    };
+  </script>
 </body>
 </html>
